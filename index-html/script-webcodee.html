@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>¿Terraria hoy?</title>
+<style>
+:root{--bg:#f4f1ea;--fg:#1d2a1d;--yes:#2e9e4f;--no:#c0392b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14201a;--fg:#eaf3e6;color-scheme:dark}}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.screen{display:none;padding:24px;max-width:560px}
+.screen.on{display:block}
+h1{font-size:clamp(28px,7vw,48px);margin:0 0 28px}
+button{font:inherit;font-size:22px;font-weight:700;border:0;border-radius:14px;padding:14px 34px;margin:6px;color:#fff;cursor:pointer}
+.yes{background:var(--yes)}.no{background:var(--no)}.back{background:#556}
+#run{transition:left .12s,top .12s}
+.gif{margin-top:20px;max-width:100%;border-radius:12px}
+.cat{display:block;margin:20px auto 0;width:min(260px,70vw);overflow:visible}
+@keyframes jump{0%,100%{transform:translateY(0) scale(1.08,.92)}50%{transform:translateY(-70px) scale(.94,1.06)}}
+@keyframes shadow{0%,100%{transform:scale(1);opacity:.35}50%{transform:scale(.55);opacity:.15}}
+@keyframes tail{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(18deg)}}
+.jump{animation:jump .9s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+.sh{animation:shadow .9s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.tail{animation:tail .45s ease-in-out infinite;transform-box:fill-box;transform-origin:0% 100%}
+</style>
+</head>
+<body>
+
+<!-- PANTALLA 1: pregunta inicial -->
+<div class="screen on" id="s1">
+  <h1>Hoy jugamos Terraria?</h1>
+  <button class="yes" onclick="go('s3')">Sí</button>
+  <button class="no" onclick="go('s2')">No</button>
+</div>
+
+<!-- PANTALLA 2: si dicen que no -->
+<div class="screen" id="s2">
+  <h1>Yo sé que quieres 😏</h1>
+  <button class="back" onclick="go('s1')">Volver</button>
+</div>
+
+<!-- PANTALLA 3: ¿Diego jugará? (el No se escapa) -->
+<div class="screen" id="s3">
+  <h1>¡Yay! ¿Diego jugará?</h1>
+  <button class="yes" onclick="go('s4')">Sí</button>
+  <button class="no" id="run">No</button>
+</div>
+
+<!-- PANTALLA 4: call brothers + gato -->
+<div class="screen" id="s4">
+  <h1>CALL n!ggers 📞</h1>
+`
+ 
+  <img class="gif" src="LINK_DEL_GIF.gif" alt="call brothers">
+  -->
+
+  <svg class="cat" viewBox="0 0 200 200" role="img" aria-label="Gato feliz saltando">
+    <ellipse class="sh" cx="100" cy="188" rx="45" ry="7" fill="#000"/>
+    <g class="jump">
+      <path class="tail" d="M136 150 Q178 142 166 100" stroke="#f0a050" stroke-width="13" stroke-linecap="round" fill="none"/>
+      <ellipse cx="100" cy="150" rx="40" ry="32" fill="#f0a050"/>
+      <ellipse cx="80" cy="176" rx="10" ry="7" fill="#f7c48a"/>
+      <ellipse cx="120" cy="176" rx="10" ry="7" fill="#f7c48a"/>
+      <polygon points="72,78 74,44 98,66" fill="#f0a050"/>
+      <polygon points="128,78 126,44 102,66" fill="#f0a050"/>
+      <polygon points="78,70 79,54 91,66" fill="#f4a7b0"/>
+      <polygon points="122,70 121,54 109,66" fill="#f4a7b0"/>
+      <circle cx="100" cy="98" r="33" fill="#f0a050"/>
+      <path d="M100 66 V76 M90 68 L92 76 M110 68 L108 76" stroke="#c97a2c" stroke-width="4" stroke-linecap="round"/>
+      <path d="M82 98 Q88 88 94 98 M106 98 Q112 88 118 98" stroke="#3a2a1a" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+      <circle cx="80" cy="108" r="6" fill="#f4a7b0" opacity=".7"/>
+      <circle cx="120" cy="108" r="6" fill="#f4a7b0" opacity=".7"/>
+      <polygon points="96,104 104,104 100,109" fill="#e07a8a"/>
+      <path d="M100 109 Q93 119 87 112 M100 109 Q107 119 113 112" stroke="#3a2a1a" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    </g>
+  </svg>
+</div>
+
+<script>
+
+function go(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on')});
+  document.getElementById(id).classList.add('on');
+  var r = document.getElementById('run');
+  r.style.position = ''; r.style.left = ''; r.style.top = '';
+}
+
+
+var run = document.getElementById('run');
+function dodge(e){
+  if (e && e.preventDefault) e.preventDefault();
+  run.style.position = 'fixed';
+  var w = run.offsetWidth, h = run.offsetHeight;
+  run.style.left = Math.random() * (window.innerWidth - w - 20) + 10 + 'px';
+  run.style.top  = Math.random() * (window.innerHeight - h - 20) + 10 + 'px';
+}
+run.addEventListener('mouseover', dodge);
+run.addEventListener('pointerdown', dodge);
+run.addEventListener('touchstart', dodge, {passive: false});
+run.addEventListener('click', dodge);
+</script>
+</body>
+</html>
